@@ -30,14 +30,14 @@ class BottomNav extends Component {
             label="Fasting"
             icon={fastingIcon}
             onClick={() => { 
-              //this.props.history.push('/fasting');
+              this.props.history.push('/fasting');
             }}
           />
           <BottomNavigationItem
             label="Settings"
             icon={settingsIcon}
             onClick={() => { 
-              this.props.history.push('/settings');
+              //this.props.history.push('/settings');
             }}
           />
         </BottomNavigation>
