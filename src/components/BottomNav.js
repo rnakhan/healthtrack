@@ -13,30 +13,32 @@ const carbIcon = <IconCarb />;
 const fastingIcon = <IconFasting />;
 
 class BottomNav extends Component {
-  state = {
-    selectedIndex: 0,
-  };
 
-  select = (index) => this.setState({selectedIndex: index});
 
   render() {
     return (
       <Paper zDepth={1}>
-        <BottomNavigation selectedIndex={this.state.selectedIndex}>
+        <BottomNavigation selectedIndex={this.props.selected}>
           <BottomNavigationItem
             label="Carbs"
             icon={carbIcon}
-            onClick={() => this.select(0)}
+            onClick={() => { 
+              this.props.history.push('/');
+            }}
           />
           <BottomNavigationItem
             label="Fasting"
             icon={fastingIcon}
-            onClick={() => this.select(1)}
+            onClick={() => { 
+              //this.props.history.push('/fasting');
+            }}
           />
           <BottomNavigationItem
             label="Settings"
             icon={settingsIcon}
-            onClick={() => this.select(2)}
+            onClick={() => { 
+              this.props.history.push('/settings');
+            }}
           />
         </BottomNavigation>
       </Paper>

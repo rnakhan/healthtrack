@@ -119,7 +119,7 @@ export default class CarbContainer extends Component {
               bottom: 0,
               width: '100%',
             }}>
-            <BottomNav />
+            <BottomNav { ...this.props} />
           </div>
       </div>
     );
