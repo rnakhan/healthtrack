@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import AppBar from 'material-ui/AppBar';
 import CarbControlPanel from './CarbControlPanel';
-import { formatDate, getWholeDate, parseState } from './common/Utils';
+import { getWholeDate } from './common/Utils';
 import CarbHistoryList from './CarbHistoryList';
-import { BREAKFAST, LUNCH, DINNER, OTHER } from './common/Constants';
+import { updateCarbs } from './common/CommonCarbCalc';
 import BottomNav from './BottomNav';
 
 
@@ -38,26 +37,12 @@ export default class CarbContainer extends Component {
     return newState;
   }
 
-  _numerify = (value) => {
-    if (value === '') return 0;
-    else return value;
-  }
-
   componentDidMount = () => {
     const oldState = JSON.parse(localStorage.getItem('state'));
     if (oldState) {
       const newState = this._getNewStateFromTemplate(oldState);
       this._checkAndSetState(newState, oldState);
     }
-  }
-
-  updateTotalCarbsState(newState, oldState) {
-    newState.today.totalCarbs =
-      this._numerify(newState.today.breakfastCarbs) +
-      this._numerify(newState.today.lunchCarbs) +
-      this._numerify(newState.today.dinnerCarbs) +
-      this._numerify(newState.today.otherCarbs);
-    this._checkAndSetState(newState, oldState);
   }
 
   _checkAndSetState = (newState, oldState) => {
@@ -73,44 +58,41 @@ export default class CarbContainer extends Component {
     localStorage.setItem('state', JSON.stringify(state));
   }
 
-  updateCarbValue = (e, type) => {
-    let val = '';
-    if (e.target.value) {
-      val = parseInt(e.target.value);
-    }
+  updateTodaysCarbValue = (e, type) => {
     const newState = this._getNewStateFromTemplate(this.state);
-    switch (type) {
-      case BREAKFAST:
-        newState.today = { ...this.state.today, breakfastCarbs: val, date: getWholeDate() };
-        break;
-      case LUNCH:
-        newState.today = { ...this.state.today, lunchCarbs: val, date: getWholeDate() };
-        break;
-      case DINNER:
-        newState.today = { ...this.state.today, dinnerCarbs: val, date: getWholeDate() };
-        break;
-      case OTHER:
-        newState.today = { ...this.state.today, otherCarbs: val, date: getWholeDate() };
-        break;
-    }
-    this.updateTotalCarbsState(newState, this.state);
+    newState.today = updateCarbs(e, type, this.state.today);
+    this._checkAndSetState(newState, this.state);
+  }
+
+  updateHistoricalEntry = (listItem) => {
+    let newPastList = this.state.past.map(
+      (entry) => {
+        if (entry.date === listItem.date) return listItem;
+        else return entry; 
+      }
+    );
+    const newState = this._getNewStateFromTemplate(this.state);
+    newState.past = newPastList;
+    this._setAndSaveState(newState);
   }
 
   render() {
     const { totalCarbs, breakfastCarbs, lunchCarbs, dinnerCarbs, otherCarbs } = this.state.today;
     return (
-      <div>
+      <div id="carbcontainer">
           <CarbControlPanel
             totalCarbs={totalCarbs}
             breakfastCarbs={breakfastCarbs}
             lunchCarbs={lunchCarbs}
             dinnerCarbs={dinnerCarbs}
             otherCarbs={otherCarbs}
-            updateCarbValue={this.updateCarbValue}
+            updateCarbValue={this.updateTodaysCarbValue}
+            dateString='today'
           />
           <div style={{ marginBottom: 56}} >
             <CarbHistoryList
               historyList={this.state.past}
+              updateHistoryList={this.updateHistoricalEntry}
             />
           </div>
           <div style={{

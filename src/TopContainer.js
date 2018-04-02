@@ -11,7 +11,7 @@ import FastContainer from './components/FastContainer';
 // when the pathname is exactly the string "/"
 class TopContainer extends Component {
 
-  // Using the hoaky render because using component with Route doesn't allow amy props. So far Router is not great..
+  // Using the hoaky render because using component with Route doesn't allow any props. So far Router is not great..
   render() {
     return (
       <div>

@@ -15,13 +15,14 @@ export default class CarbControlPanel extends Component {
       dinnerCarbs,
       otherCarbs,
       updateCarbValue,
+      dateString
     } = this.props;
 
       return (
         <Paper style={style.containerStyle} zDepth={1} >
             <CarbDisplay 
               value={totalCarbs}
-              dateString='today'
+              dateString={dateString}
             />
             <CarbEntryForm 
               breakfastValue={breakfastCarbs}

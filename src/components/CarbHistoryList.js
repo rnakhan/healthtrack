@@ -1,71 +1,71 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Avatar from 'material-ui/Avatar';
 import { List, ListItem } from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
+import CarbHistoryEditPopover from './CarbHistoryEditPopover';
 import { firstCharOfDayWithColor } from './common/Utils';
 
-const CarbHistoryList = (props) => {
-  return (
-    <List style={{ overflowY: "scroll" }}>
-      <Subheader>Recent days</Subheader>
-      {formatListItems(props.historyList, props.style)}  
-      <ListItem
-          primaryText='55'
-          leftAvatar={
-            <Avatar
-              backgroundColor='red'
-              size={30}
-            >
-              A
-          </Avatar> }
-          secondaryText={(new Date()).toDateString()}
-        /> 
-        <ListItem
-          primaryText='55'
-          leftAvatar={
-            <Avatar
-              backgroundColor='blue'
-              size={30}
-            >
-              B
-          </Avatar> }
-          secondaryText={(new Date()).toDateString()}
-        /> 
-        <ListItem
-          primaryText='55'
-          leftAvatar={
-            <Avatar
-              backgroundColor='green'
-              size={30}
-            >
-              C
-          </Avatar> }
-          secondaryText={(new Date()).toDateString()}
-        /> 
-    </List>
-  );
-}
+export default class CarbHistoryList extends Component {
 
-const formatListItems = (list) => {
-  var fcod;
-  return list.map(
-    (entry) => {
-      fcod = firstCharOfDayWithColor(entry.date);
-      return (
-        <ListItem
-          primaryText={entry.totalCarbs}
-          leftAvatar={
-            <Avatar
-              backgroundColor={fcod.color}
-              size={30}
-            >
-              {fcod.day}
-          </Avatar> }
-          secondaryText={(new Date(entry.date)).toDateString()}
-        />
-      );
-    }
-  );
-}
+  state = {
+    open: false
+  }
 
-export default CarbHistoryList;
+  render() {
+    return (
+      <List style={{ overflowY: "scroll" }}>
+        <Subheader>Recent days</Subheader>
+        {this.formatListItems(this.props.historyList, this.props.style)}
+        {this.renderPopover()}
+      </List>
+    );
+  }
+
+  updateHistoryList = (element) => {
+    this.props.updateHistoryList(element);
+    this.handlePopEditClose();  
+  }
+
+  renderPopover = () => {
+    return (
+      <CarbHistoryEditPopover 
+        open={this.state.open}
+        handleClose={this.handlePopEditClose}
+        updateHistoryList={this.updateHistoryList}
+        listItem={this.state.listItem}
+      />
+    )
+  }
+
+  handlePopEditClose = () => {
+    this.setState({ open: false });
+  }
+
+  onListItemClick = (entry) => {
+    this.setState ({ open: true, listItem: entry });
+  }
+
+  formatListItems = (list) => {
+    var fcod;
+    return list.map(
+      (entry) => {
+        fcod = firstCharOfDayWithColor(entry.date);
+        return (
+          <ListItem
+            key={entry.date}
+            onClick={(e) => { this.onListItemClick(entry)} }
+            primaryText={entry.totalCarbs}
+            leftAvatar={
+              <Avatar
+                backgroundColor={fcod.color}
+                size={30}
+              >
+                {fcod.day}
+              </Avatar>}
+            secondaryText={(new Date(entry.date)).toDateString()}
+          />
+        );
+      }
+    );
+  }
+}

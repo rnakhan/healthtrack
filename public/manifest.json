@@ -1,6 +1,6 @@
 {
-  "short_name": "Carb Counter",
-  "name": "Daily Carb Counter",
+  "short_name": "Health Track",
+  "name": "Health Track",
   "icons": [
     {
       "src": "cc_icon.png",
@@ -13,7 +13,7 @@
       "type": "image/png"
     }
   ],
-  "start_url": "./index.html",
+  "start_url": "/",
   "display": "standalone",
   "theme_color": "#000000",
   "background_color": "#ffffff"
