@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-import Dialog from 'material-ui/Dialog';
-import RaisedButton from 'material-ui/RaisedButton';
+//import Dialog from 'material-ui/Dialog';
+import Dialog, {
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+} from 'material-ui-next/Dialog';
+import Button from 'material-ui-next/Button'
 import CarbControlPanel from './CarbControlPanel';
 import { formatDate } from './common/Utils';
 import { updateCarbs } from './common/CommonCarbCalc';
-
-const customContentStyle = {
-  width: '95%',
-  maxWidth: 'none',
-};
 
 export default class CarbHistoryEditPopover extends Component {
 
@@ -43,14 +43,6 @@ export default class CarbHistoryEditPopover extends Component {
   }
 
   render() {
-    const actions = [
-      <RaisedButton
-        label="Save"
-        primary={true}
-        keyboardFocused={false}
-        onClick={() => this.props.updateHistoryList(this.state.localItem)}
-      />,
-    ];
     const { totalCarbs, 
       breakfastCarbs, 
       lunchCarbs,
@@ -60,22 +52,29 @@ export default class CarbHistoryEditPopover extends Component {
     return (
       <div>
         <Dialog
-          title="Edit past day"
-          actions={actions}
-          modal={false}
+          fullScreen={false}
           open={this.props.open}
-          onRequestClose={this.props.handleClose}
-          contentStyle={customContentStyle}
+          onClose={this.props.handleClose}
         >
-        <CarbControlPanel 
-          totalCarbs={totalCarbs}
-          breakfastCarbs={breakfastCarbs}
-          lunchCarbs={lunchCarbs}
-          dinnerCarbs={dinnerCarbs}
-          otherCarbs={otherCarbs}
-          updateCarbValue={this.updateLocalItem}
-          dateString={formatDate(new Date(date))}
-        />
+          <DialogTitle>{"Edit Past Day"}</DialogTitle>
+          <DialogContent>
+            <CarbControlPanel
+              totalCarbs={totalCarbs}
+              breakfastCarbs={breakfastCarbs}
+              lunchCarbs={lunchCarbs}
+              dinnerCarbs={dinnerCarbs}
+              otherCarbs={otherCarbs}
+              updateCarbValue={this.updateLocalItem}
+              dateString={formatDate(new Date(date))}
+            />
+          </DialogContent>
+          <DialogActions>
+             <Button variant="raised"
+               onClick={() => this.props.updateHistoryList(this.state.localItem)}
+             >
+               Save
+            </Button>
+          </DialogActions>
         </Dialog>
       </div>
     );

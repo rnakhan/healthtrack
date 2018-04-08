@@ -21,6 +21,7 @@ const hoursToGoString = (date = new Date()) => {
 // without hrs/min/secs
 const getWholeDate = (date = new Date()) => {
   date.setHours(0, 0, 0, 0);
+  //date.setSeconds(0, 0);  // use it to test at minute boundary
   return JSON.parse(JSON.stringify(date));
 }
 

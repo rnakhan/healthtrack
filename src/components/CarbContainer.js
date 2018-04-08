@@ -60,7 +60,7 @@ export default class CarbContainer extends Component {
 
   updateTodaysCarbValue = (e, type) => {
     const newState = this._getNewStateFromTemplate(this.state);
-    newState.today = updateCarbs(e, type, this.state.today);
+    newState.today = updateCarbs(e, type, newState.today);
     this._checkAndSetState(newState, this.state);
   }
 
