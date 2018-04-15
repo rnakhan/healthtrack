@@ -2,8 +2,8 @@ import React from 'react';
 import { Paper } from 'material-ui';
 import { hoursToGoString } from './common/Utils';
 
-const colorChooser = (number) => {
-  if (number >= 100) {
+const colorChooser = (number, maxCarbs) => {
+  if (number >= maxCarbs) {
     return 'red';
   }
   return 'green';
@@ -26,7 +26,7 @@ const formatText = (text) => {
 const CarbDisplay = (props) => (
   <div>
     <Paper style={style.displayPanel} zDepth={0}>
-      <div style={{ ...style.mainTextStyle, color: colorChooser(props.value) }} >
+      <div style={{ ...style.mainTextStyle, color: colorChooser(props.value, props.maxCarbs) }} >
         {formatText(props.value)}
       </div>
       <div style={style.subTextStyle} >

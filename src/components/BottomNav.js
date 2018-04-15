@@ -17,7 +17,7 @@ class BottomNav extends Component {
 
   render() {
     return (
-      <Paper zDepth={3}>
+      <Paper zDepth={4}>
         <BottomNavigation selectedIndex={this.props.selected}>
           <BottomNavigationItem
             label="Carbs"
@@ -31,7 +31,7 @@ class BottomNav extends Component {
             icon={fastingIcon}
             onClick={() => { 
               // these are top level routes, so we use replace instead of push
-              // this takes surprise out of Android basck button behavior
+              // this takes surprise out of Android back button behavior
               this.props.history.replace('/fasting');
             }}
           />
@@ -39,7 +39,8 @@ class BottomNav extends Component {
             label="Settings"
             icon={settingsIcon}
             onClick={() => { 
-              //this.props.history.push('/settings');
+              // We use push here instead because we have a backbutton in settings
+              this.props.history.push('/settings');
             }}
           />
         </BottomNavigation>

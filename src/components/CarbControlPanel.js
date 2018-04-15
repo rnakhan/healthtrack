@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import Paper from 'material-ui/Paper';
 import CarbDisplay from './CarbDisplay';
 import CarbEntryForm from './CarbEntryForm';
 import { BREAKFAST, LUNCH, DINNER, OTHER } from './common/Constants';
+import GeneralContainer from './common/GeneralContainer';
 
 
 export default class CarbControlPanel extends Component {
@@ -19,10 +19,11 @@ export default class CarbControlPanel extends Component {
     } = this.props;
 
       return (
-        <Paper style={style.containerStyle} zDepth={1} >
+        <GeneralContainer>
             <CarbDisplay 
               value={totalCarbs}
               dateString={dateString}
+              maxCarbs={this.props.maxCarbs}
             />
             <CarbEntryForm 
               breakfastValue={breakfastCarbs}
@@ -37,18 +38,7 @@ export default class CarbControlPanel extends Component {
               otherValue={otherCarbs}
               updateOtherValue={ (e) => { updateCarbValue(e, OTHER) }}
             />
-        </Paper>
+        </GeneralContainer>
       );
   }
 }
-
-const style = {
-  containerStyle: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    margin: '5px',
-    height: '320px',
-    padding: '5px'
-  },
-};

@@ -33,7 +33,7 @@ export default class CarbContainer extends Component {
     newState.today = { ...oldState.today };
     newState.today.date = getWholeDate();
     // TODO when there is a limit of records, you may drop old data here
-    newState.past = oldState.past.slice();
+    newState.past = oldState.past.slice(0, this.props.maxHistoryList);
     return newState;
   }
 
@@ -88,6 +88,7 @@ export default class CarbContainer extends Component {
             otherCarbs={otherCarbs}
             updateCarbValue={this.updateTodaysCarbValue}
             dateString='today'
+            maxCarbs={this.props.maxCarbs}
           />
           <div style={{ marginBottom: 56}} >
             <CarbHistoryList

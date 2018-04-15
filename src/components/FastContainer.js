@@ -7,7 +7,7 @@ export default class FastContainer extends Component {
     return (
       <div>
         <div>
-          Coming Soon
+          Coming Soon..
         </div>
         <div style={{
           position: 'fixed',
