@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import CarbDisplay from './CarbDisplay';
 import CarbEntryForm from './CarbEntryForm';
-import { BREAKFAST, LUNCH, DINNER, OTHER } from './common/Constants';
-import GeneralContainer from './common/GeneralContainer';
+import { BREAKFAST, LUNCH, DINNER, OTHER } from '../common/Constants';
+import GeneralContainer from '../common/GeneralContainer';
 
 
 export default class CarbControlPanel extends Component {

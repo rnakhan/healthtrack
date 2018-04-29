@@ -7,8 +7,8 @@ import Dialog, {
 } from 'material-ui-next/Dialog';
 import Button from 'material-ui-next/Button'
 import CarbControlPanel from './CarbControlPanel';
-import { formatDate } from './common/Utils';
-import { updateCarbs } from './common/CommonCarbCalc';
+import { formatDate } from '../common/Utils';
+import { updateCarbs } from '../common/CommonCarbCalc';
 
 export default class CarbHistoryEditPopover extends Component {
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import BottomNav from './BottomNav';
-import BackButtonAppBar from './common/BackButtonAppBar';
+import BottomNav from '../BottomNav';
+import BackButtonAppBar from '../common/BackButtonAppBar';
 import SettingsPanel from './SettingsPanel';
 
 export default class SettingsContainer extends Component {

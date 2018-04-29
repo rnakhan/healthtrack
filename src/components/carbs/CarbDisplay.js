@@ -1,6 +1,6 @@
 import React from 'react';
 import { Paper } from 'material-ui';
-import { hoursToGoString } from './common/Utils';
+import { hoursToGoString } from '../common/Utils';
 
 const colorChooser = (number, maxCarbs) => {
   if (number >= maxCarbs) {

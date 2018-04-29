@@ -3,7 +3,7 @@ import Avatar from 'material-ui/Avatar';
 import { List, ListItem } from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 import CarbHistoryEditPopover from './CarbHistoryEditPopover';
-import { firstCharOfDayWithColor } from './common/Utils';
+import { firstCharOfDayWithColor } from '../common/Utils';
 
 export default class CarbHistoryList extends Component {
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import BottomNav from './BottomNav';
+import BottomNav from '../BottomNav';
 
 export default class FastContainer extends Component {
 

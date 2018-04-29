@@ -1,6 +1,6 @@
 import React from 'react';
-import NumberInput from './common/NumberInput';
-import { BREAKFAST, LUNCH, DINNER, OTHER } from './common/Constants';
+import NumberInput from '../common/NumberInput';
+import { BREAKFAST, LUNCH, DINNER, OTHER } from '../common/Constants';
 
 const CarbEntryForm = (props) => {
     return (

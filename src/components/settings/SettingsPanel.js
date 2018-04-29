@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { FormControl, FormLabel } from 'material-ui-next';
-import NumberInput from './common/NumberInput';
-import GeneralContainer from './common/GeneralContainer';
-import { CONFIG_MAX_CARBS, CONFIG_MAX_CARBS_HISTORY } from './common/Constants';
+import NumberInput from '../common/NumberInput';
+import GeneralContainer from '../common/GeneralContainer';
+import { CONFIG_MAX_CARBS, CONFIG_MAX_CARBS_HISTORY } from '../common/Constants';
 
 export default class SettingsPanel extends Component {
 

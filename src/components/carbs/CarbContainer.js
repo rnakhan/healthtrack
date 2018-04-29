@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import CarbControlPanel from './CarbControlPanel';
-import { getWholeDate } from './common/Utils';
+import { getWholeDate } from '../common/Utils';
 import CarbHistoryList from './CarbHistoryList';
-import { updateCarbs } from './common/CommonCarbCalc';
-import BottomNav from './BottomNav';
+import { updateCarbs } from '../common/CommonCarbCalc';
+import BottomNav from '../BottomNav';
 
 
 export default class CarbContainer extends Component {
@@ -32,7 +32,7 @@ export default class CarbContainer extends Component {
     let newState = {};
     newState.today = { ...oldState.today };
     newState.today.date = getWholeDate();
-    // TODO when there is a limit of records, you may drop old data here
+    // Dropping record here if more than max
     newState.past = oldState.past.slice(0, this.props.maxHistoryList);
     return newState;
   }

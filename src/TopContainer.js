@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { Switch, Route } from 'react-router-dom'
-import CarbContainer from './components/CarbContainer'
-import FastContainer from './components/FastContainer';
-import SettingsContainer from './components/SettingsContainer';
+import CarbContainer from './components/carbs/CarbContainer'
+import FastContainer from './components/fasting/FastContainer';
+import SettingsContainer from './components/settings/SettingsContainer';
 import { CONFIG_MAX_CARBS, CONFIG_MAX_CARBS_HISTORY } from './components/common/Constants';
 
 
@@ -49,7 +49,12 @@ class TopContainer extends Component {
               {...props}
             />} />
           <Route exact path="/fasting"
-            render={props => <FastContainer selected={1} {...props} />} />
+            render={props => <FastContainer 
+              selected={1} 
+              minMealDuration={this.state.fastConfig.minMealDuration}
+              maxHistoryList={this.state.fastConfig.maxHistoryList}
+              {...props} 
+            />} />
           <Route exact path="/settings"
             render={props => <SettingsContainer 
               selected={2} 
