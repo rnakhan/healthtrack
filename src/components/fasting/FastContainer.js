@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import BottomNav from '../BottomNav';
+import FastingControlPanel from './FastingControlPanel';
 
 export default class FastContainer extends Component {
 
   render() {
     return (
       <div>
-        <div>
-          Coming Soon..
-        </div>
+        <FastingControlPanel />
         <div style={{
           position: 'fixed',
           left: 0,
