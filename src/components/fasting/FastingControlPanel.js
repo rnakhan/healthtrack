@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import GeneralContainer from '../common/GeneralContainer';
 import FastingDisplay from './FastingDisplay';
-import Button from 'material-ui-next/Button';
+import Button from '@material-ui/core/Button';
 
 export default class FastingControlPanel extends Component {
 

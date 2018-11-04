@@ -22,8 +22,8 @@ export default class CarbHistoryList extends Component {
   }
 
   updateHistoryList = (element) => {
-    this.props.updateHistoryList(element);
     this.handlePopEditClose();  
+    this.props.updateHistoryList(element);
   }
 
   renderPopover = () => {
@@ -32,17 +32,17 @@ export default class CarbHistoryList extends Component {
         open={this.state.open}
         handleClose={this.handlePopEditClose}
         updateHistoryList={this.updateHistoryList}
-        listItem={this.state.listItem}
+        listItem={this.state.editingListItem}
       />
     )
   }
 
   handlePopEditClose = () => {
-    this.setState({ open: false });
+    this.setState({ open: false, editingListItem: null });
   }
 
   onListItemClick = (entry) => {
-    this.setState ({ open: true, listItem: entry });
+    this.setState ({ open: true, editingListItem: entry });
   }
 
   formatListItems = (list) => {
