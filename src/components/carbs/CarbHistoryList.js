@@ -7,9 +7,10 @@ import { firstCharOfDayWithColor } from '../common/Utils';
 
 export default class CarbHistoryList extends Component {
 
+  // We use date as key to differentiate dialog instances
   state = {
     open: false,
-    editingListItem: { date: 0 } // we use date as key to differentiate dialog instances
+    editingListItem: { date: 0 } 
   }
 
   render() {
@@ -29,12 +30,13 @@ export default class CarbHistoryList extends Component {
 
   renderPopover = () => {
     return (
+      // Because of the key we generate a new Dialog - this is clean
       <CarbHistoryEditPopover 
         open={this.state.open}
         handleClose={this.handlePopEditClose}
         updateHistoryList={this.updateHistoryList}
         listItem={this.state.editingListItem}
-        key={this.state.editingListItem.date} // because of the key we generate a new Dialog - this is clean
+        key={this.state.editingListItem.date}
       />
     )
   }
