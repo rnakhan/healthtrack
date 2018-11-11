@@ -8,7 +8,8 @@ import { firstCharOfDayWithColor } from '../common/Utils';
 export default class CarbHistoryList extends Component {
 
   state = {
-    open: false
+    open: false,
+    editingListItem: { date: 0 } // we use date as key to differentiate dialog instances
   }
 
   render() {
@@ -33,12 +34,13 @@ export default class CarbHistoryList extends Component {
         handleClose={this.handlePopEditClose}
         updateHistoryList={this.updateHistoryList}
         listItem={this.state.editingListItem}
+        key={this.state.editingListItem.date} // because of the key we generate a new Dialog - this is clean
       />
     )
   }
 
   handlePopEditClose = () => {
-    this.setState({ open: false, editingListItem: null });
+    this.setState({ open: false });
   }
 
   onListItemClick = (entry) => {
