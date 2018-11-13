@@ -1,25 +1,41 @@
 import React from 'react';
-import { Paper } from 'material-ui';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
+import { colorChooser, msToTime } from '../common/Utils';
 
 const FastingDisplay = (props) => {
   return (
-    <div>
-    <Paper style={style.displayContainer} zDepth={0}>
-      <div style={style.textStyle}>
-        11hr 15 min 23 sec 
-      </div>
+    <Paper style={style.displayPanel} elevation={0}>
+      <Typography style={{ ...style.bigTextStyle, color: colorChooser(1000000, props.fastingSince)}}>
+        {msToTime(props.fastingSince)}
+    </Typography>
+      <Typography component="p" style={style.subTextStyle}>
+        Avg: 8:23:45
+    </Typography>
     </Paper>
-    </div>
   );
 }
 
 const style = {
-  displayContainer: {
+  displayPanel: {
+    height: '260px',
+    margin: '10px',
+    display: 'flex',
+    padding: '10px',
+    flexDirection: 'column',
+    justifyContent: 'center'
 
   },
-  textStyle: {
-
+  bigTextStyle: {
+    fontSize: '70px',
+    alignSelf: 'center'
+  },
+  subTextStyle: {
+    fontSize: '16px',
+    alignSelf: 'center',
+    color: '#aaa',
+    fontStyle: 'italic'
   }
-}
+};
 
 export default FastingDisplay;

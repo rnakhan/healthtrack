@@ -1,13 +1,6 @@
 import React from 'react';
-import { Paper } from 'material-ui';
-import { hoursToGoString } from '../common/Utils';
-
-const colorChooser = (number, maxCarbs) => {
-  if (number >= maxCarbs) {
-    return 'red';
-  }
-  return 'green';
-}
+import Paper from '@material-ui/core/Paper';
+import { hoursToGoString, colorChooser } from '../common/Utils';
 
 const displaySubtext = (dateString) => {
   if (dateString === 'today') {
@@ -25,7 +18,7 @@ const formatText = (text) => {
 
 const CarbDisplay = (props) => (
   <div>
-    <Paper style={style.displayPanel} zDepth={0}>
+    <Paper style={style.displayPanel} elevation={0}>
       <div style={{ ...style.mainTextStyle, color: colorChooser(props.value, props.maxCarbs) }} >
         {formatText(props.value)}
       </div>

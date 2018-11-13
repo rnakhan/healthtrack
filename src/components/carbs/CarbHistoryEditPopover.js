@@ -56,6 +56,7 @@ export default class CarbHistoryEditPopover extends Component {
           <DialogActions>
             <Button
               variant="raised"
+              color="primary"
               onClick={() => {
                 this.props.updateHistoryList(this.state.localItem);
               }}
