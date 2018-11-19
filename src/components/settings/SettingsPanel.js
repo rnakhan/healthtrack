@@ -3,7 +3,12 @@ import { FormControl } from '@material-ui/core';
 import { FormLabel } from '@material-ui/core';
 import NumberInput from '../common/NumberInput';
 import GeneralContainer from '../common/GeneralContainer';
-import { CONFIG_MAX_CARBS, CONFIG_MAX_CARBS_HISTORY } from '../common/Constants';
+import { 
+  CONFIG_MAX_CARBS, 
+  CONFIG_MAX_CARBS_HISTORY,
+  CONFIG_FAST_DURATION,
+  CONFIG_MAX_FAST_HISTORY 
+} from '../common/Constants';
 
 export default class SettingsPanel extends Component {
 
@@ -16,13 +21,13 @@ export default class SettingsPanel extends Component {
           <NumberInput
             style={{ width: '60%' }}
             value={settings.carbConfig.maxCarbs}
-            updateFunction={(e) => this.props.updateCarbConfig(e, CONFIG_MAX_CARBS)}
+            updateFunction={(e) => this.props.updateConfig(e, CONFIG_MAX_CARBS)}
             label='Max carbs'
           />
           <NumberInput
             style={{ width: '60%' }}
             value={settings.carbConfig.maxHistoryList}
-            updateFunction={(e) => this.props.updateCarbConfig(e, CONFIG_MAX_CARBS_HISTORY)}
+            updateFunction={(e) => this.props.updateConfig(e, CONFIG_MAX_CARBS_HISTORY)}
             label='Number of entries'
           />
         </FormControl>
@@ -31,14 +36,14 @@ export default class SettingsPanel extends Component {
           <FormLabel> Fasting Settings </FormLabel>
           <NumberInput
             style={{ width: '60%' }}
-            value={10}
-            updateFunction={() => console.log('update called')}
-            label='Minimum Meal duration'
+            value={settings.fastConfig.fastDuration}
+            updateFunction={(e) => this.props.updateConfig(e, CONFIG_FAST_DURATION)}
+            label='Preferred Fasting duration (hrs)'
           />
           <NumberInput
             style={{ width: '60%' }}
-            value={20}
-            updateFunction={() => console.log('update called')}
+            value={settings.fastConfig.maxHistoryList}
+            updateFunction={(e) => this.props.updateConfig(e, CONFIG_MAX_FAST_HISTORY)}
             label='Number of entries'
           />
         </FormControl>

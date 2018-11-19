@@ -8,8 +8,11 @@ export default class FastingControlPanel extends Component {
   render() {
     return (
       <GeneralContainer style={style.containerStyle}>
-        <FastingDisplay fastingSince={this.props.fastingSince}/>
-        <Button color="primary" variant="text" fullWidth="false">
+        <FastingDisplay 
+          fastingSince={this.props.fastingSince}
+          fastDurationHrs={this.props.fastDurationHrs}
+        />
+        <Button color="primary" variant="text" onClick={this.props.handleDialogOpen}>
           Add Meal
         </Button>
       </GeneralContainer>

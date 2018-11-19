@@ -94,6 +94,7 @@ export default class CarbContainer extends Component {
             <CarbHistoryList
               historyList={this.state.past}
               updateHistoryList={this.updateHistoricalEntry}
+              maxCarbs={this.props.maxCarbs}
             />
           </div>
           <div style={{

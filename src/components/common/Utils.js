@@ -49,16 +49,29 @@ const firstCharOfDayWithColor = (dateStr) => {
 }
 
 const  msToTime = (duration) => {
-  let milliseconds = parseInt((duration % 1000) / 100),
-    seconds = parseInt((duration / 1000) % 60),
+  let seconds = parseInt((duration / 1000) % 60),
     minutes = parseInt((duration / (1000 * 60)) % 60),
-    hours = parseInt((duration / (1000 * 60 * 60)) % 24);
-
+    hours = parseInt(duration / (1000 * 60 * 60));
   hours = (hours < 10) ? "0" + hours : hours;
   minutes = (minutes < 10) ? "0" + minutes : minutes;
   seconds = (seconds < 10) ? "0" + seconds : seconds;
 
-  return hours + ":" + minutes + ":" + seconds;
+  return { 
+    "hours": hours,
+    "minutes":  minutes,
+    "seconds": seconds
+  };
+}
+
+const formatMealtime = (date = new Date()) => {
+  var hours = date.getHours();
+  var minutes = date.getMinutes();
+  var ampm = hours >= 12 ? 'pm' : 'am';
+  hours = hours % 12;
+  hours = hours ? hours : 12; // the hour '0' should be '12'
+  minutes = minutes < 10 ? '0'+minutes : minutes;
+  var strTime = hours + ':' + minutes + ' ' + ampm;
+  return date.getMonth()+1 + "/" + date.getDate() + "/" + date.getFullYear() + ",  " + strTime;
 }
 
 const colorChooser = (number, high) => {
@@ -68,4 +81,4 @@ const colorChooser = (number, high) => {
   return 'green';
 }
 
-export { formatDate, hoursToGoString, getWholeDate, firstCharOfDayWithColor, msToTime, colorChooser };
+export { formatDate, hoursToGoString, getWholeDate, firstCharOfDayWithColor, msToTime, colorChooser, formatMealtime };

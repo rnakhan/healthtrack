@@ -51,11 +51,12 @@ export default class CarbHistoryEditPopover extends Component {
               otherCarbs={otherCarbs}
               updateCarbValue={this.updateLocalItem}
               dateString={formatDate(new Date(date))}
+              maxCarbs={this.props.maxCarbs}
             />
           </DialogContent>
           <DialogActions>
             <Button
-              variant="raised"
+              variant="contained"
               color="primary"
               onClick={() => {
                 this.props.updateHistoryList(this.state.localItem);

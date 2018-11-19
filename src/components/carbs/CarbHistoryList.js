@@ -37,6 +37,7 @@ export default class CarbHistoryList extends Component {
         updateHistoryList={this.updateHistoryList}
         listItem={this.state.editingListItem}
         key={this.state.editingListItem.date}
+        maxCarbs={this.props.maxCarbs}
       />
     )
   }

@@ -3,7 +3,12 @@ import { Switch, Route } from 'react-router-dom'
 import CarbContainer from './components/carbs/CarbContainer'
 import FastContainer from './components/fasting/FastContainer';
 import SettingsContainer from './components/settings/SettingsContainer';
-import { CONFIG_MAX_CARBS, CONFIG_MAX_CARBS_HISTORY } from './components/common/Constants';
+import { 
+  CONFIG_MAX_CARBS, 
+  CONFIG_MAX_CARBS_HISTORY,
+  CONFIG_FAST_DURATION,
+  CONFIG_MAX_FAST_HISTORY
+} from './components/common/Constants';
 
 
 // The Main component renders one of the three provided
@@ -21,7 +26,7 @@ class TopContainer extends Component {
         maxHistoryList: 100
       },
       fastConfig: {
-        minMealDuration: 8,
+        fastDuration: 8,
         maxHistoryList: 100
       },
     };
@@ -51,14 +56,14 @@ class TopContainer extends Component {
           <Route exact path="/fasting"
             render={props => <FastContainer 
               selected={1} 
-              minMealDuration={this.state.fastConfig.minMealDuration}
+              fastDurationHrs={this.state.fastConfig.fastDuration}
               maxHistoryList={this.state.fastConfig.maxHistoryList}
               {...props} 
             />} />
           <Route exact path="/settings"
             render={props => <SettingsContainer 
               selected={2} 
-              updateCarbConfig={this.updateCarbConfig}
+              updateConfig={this.updateConfig}
               currentSettings={this.state}
               {...props}
              />} />
@@ -72,7 +77,7 @@ class TopContainer extends Component {
     localStorage.setItem('config-state', JSON.stringify(configState));
   }
 
-  updateCarbConfig = (e, type) => {
+  updateConfig = (e, type) => {
     let val = 0;
     let newState;
     if (e.target.value) {
@@ -87,6 +92,16 @@ class TopContainer extends Component {
       case CONFIG_MAX_CARBS_HISTORY: 
         newState = { ...this.state };
         newState.carbConfig.maxHistoryList = val;
+        this._setAndSaveState(newState);
+        break;
+      case CONFIG_FAST_DURATION: 
+        newState = { ...this.state };
+        newState.fastConfig.fastDuration = val;
+        this._setAndSaveState(newState);
+        break;
+      case CONFIG_MAX_FAST_HISTORY: 
+        newState = { ...this.state };
+        newState.fastConfig.maxHistoryList = val;
         this._setAndSaveState(newState);
         break;
       default:
