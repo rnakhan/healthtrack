@@ -21,6 +21,9 @@ export default class FastingHistoryList extends Component {
   }
 
   formatListItems = (list) => {
+    if (!list || list.length == 0) {
+      return (<div></div>);
+    }
     list.sort( (a, b) => { return (a.date - b.date) }); // ascending
     let newList = [];
     let lastDate = null;
@@ -38,6 +41,6 @@ export default class FastingHistoryList extends Component {
       ))
       lastDate = list[i].date;
     }
-    return newList.reverse();
+    return newList.reverse();  // descending
   }
 }

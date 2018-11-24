@@ -63,15 +63,38 @@ const  msToTime = (duration) => {
   };
 }
 
-const formatMealtime = (date = new Date()) => {
-  var hours = date.getHours();
-  var minutes = date.getMinutes();
-  var ampm = hours >= 12 ? 'pm' : 'am';
+const formatMealtime = (d = new Date()) => {
+  let date = new Date(d);
+  let hours = date.getHours();
+  let minutes = date.getMinutes();
+  let ampm = hours >= 12 ? 'pm' : 'am';
   hours = hours % 12;
   hours = hours ? hours : 12; // the hour '0' should be '12'
   minutes = minutes < 10 ? '0'+minutes : minutes;
-  var strTime = hours + ':' + minutes + ' ' + ampm;
+  let strTime = hours + ':' + minutes + ' ' + ampm;
   return date.getMonth()+1 + "/" + date.getDate() + "/" + date.getFullYear() + ",  " + strTime;
+}
+
+// "2018-11-21T10:30"
+const formatPickerTime = (date = new Date()) => {
+  let month = date.getMonth() + 1;
+  let dt = date.getDate();
+  let minutes = date.getMinutes();
+  let hours = date.getHours();
+  return (date.getFullYear() +
+    "-" +
+    padWithZero(month) +
+    "-" + 
+    padWithZero(dt) +
+    "T" +
+    padWithZero(hours) +
+    ":" +
+    padWithZero(minutes)
+  );  
+}
+
+function padWithZero(val) {
+  return val < 10 ? '0'+val : val;
 }
 
 const colorChooser = (number, high) => {
@@ -81,4 +104,13 @@ const colorChooser = (number, high) => {
   return 'green';
 }
 
-export { formatDate, hoursToGoString, getWholeDate, firstCharOfDayWithColor, msToTime, colorChooser, formatMealtime };
+export { 
+  formatDate, 
+  hoursToGoString, 
+  getWholeDate, 
+  firstCharOfDayWithColor, 
+  msToTime, 
+  colorChooser, 
+  formatMealtime,
+  formatPickerTime
+};

@@ -2,54 +2,110 @@ import React, { Component } from 'react';
 import BottomNav from '../BottomNav';
 import FastingControlPanel from './FastingControlPanel';
 import FastingHistoryList from './FastingHistoryList';
+import MealEditDialog from './MealEditDialog';
+import { formatPickerTime } from './../common/Utils';
 
 export default class FastContainer extends Component {
 
   constructor(props) {
     super(props);
-    //const savedFastingState = JSON.parse(localStorage.getItem('fasting-state'));
-    this.savedFastingHistory = [
-      { date: new Date(2018, 10, 12, 8, 21)},
-      { date: new Date(2018, 10, 13, 6, 10)},
-      { date: new Date(2018, 10, 13, 15, 11)},
-      { date: new Date(2018, 10, 13, 22, 21)},
-      { date: new Date(2018, 10, 14, 3, 23)},
-      { date: new Date(2018, 10, 15, 11, 12)},
-      { date: new Date(2018, 10, 16, 10, 11)},
-      { date: new Date(2018, 10, 17, 16, 10)}
-    ];
-    this.state = {};
-    if (this.savedFastingHistory && this.savedFastingHistory[this.savedFastingHistory.length - 1]) {
-      this.state.lastMeal = (this.savedFastingHistory[this.savedFastingHistory.length - 1]).date; // last meal
-    } else {
-      this.state.lastMeal = new Date();
-    }
-    this.state.fastingSince = new Date() - this.state.lastMeal;
+    this.state = { 
+      dialogOpen: false,
+      savedFastingHistory: [],
+      lastMeal: new Date(),
+      fastingSince: 0,
+      editingDateTime: new Date(),
+      editingEntry: "NEW"
+    };
   }
 
-
   componentWillUnmount = () => {
-    this._shouldUpdateScreen = false;
+    clearInterval(this.intervalHandle);
   }
 
   componentDidMount = () => {
-    this._shouldUpdateScreen = true;
-    this.refreshTimer();
+    this.readStateFromStore();
+    this.intervalHandle = setInterval(() => this.refreshTimer(), 1000);
+  }
+
+  // fasting state is an array of { date: dateObject }
+  readStateFromStore() {
+    const savedHistory = JSON.parse(localStorage.getItem('fasting-state'));
+    let savedFastingHistory, lastMeal;
+    if (savedHistory && savedHistory[savedHistory.length - 1]) {
+      savedFastingHistory = (JSON.parse(localStorage.getItem('fasting-state'))).map(e => { return { date: new Date(e.date)}});
+      lastMeal = (savedFastingHistory[savedFastingHistory.length - 1]).date; // last meal
+    } else {
+      lastMeal = new Date();
+    }
+    this.setState({ 
+      lastMeal, 
+      fastingSince: (new Date() - lastMeal),
+      savedFastingHistory: savedFastingHistory || []
+    });
   }
 
   refreshTimer = () => {
-    if (!this._shouldUpdateScreen)  return;
     this.setState({ fastingSince: (new Date()) - this.state.lastMeal });
-    setTimeout(() => this.refreshTimer(), 1000);
   }
 
   handleDialogOpen = (entry) => {
-    console.log('Dialog open called ' + (entry ? entry.date : ' with new'));
+    let editingEntry, editingDate;
+    if (entry == null) {
+      editingDate = new Date();
+      editingEntry = "NEW";
+    } else {
+      editingDate = entry.date;
+      editingEntry = entry;
+    }
+    this.setState({ editingEntry, editingDateTime: formatPickerTime(editingDate),  dialogOpen: true });
+  }
+
+  handleDialogClose = () => {
+    this.setState({ dialogOpen: false });
+  }
+
+  saveNewTime = () => {
+    let newHistoryArray;
+    if (this.state.editingEntry == "NEW") {
+      newHistoryArray = this.state.savedFastingHistory.concat({ date: new Date(this.state.editingDateTime) });
+    } else {
+      newHistoryArray = this.state.savedFastingHistory.map(entry => {
+        if (this.state.editingEntry.date == entry.date) return ({ date: new Date(this.state.editingDateTime) });
+        else return entry;
+      });
+    }
+    newHistoryArray.sort( (a, b) => { return (a.date - b.date) }); // descending
+    let lastMeal = (newHistoryArray[newHistoryArray.length - 1]).date; // last meal
+    this.setState({ 
+      lastMeal, 
+      fastingSince: (new Date() - lastMeal),
+      savedFastingHistory: newHistoryArray
+    });
+    localStorage.setItem('fasting-state', JSON.stringify(newHistoryArray));
+    this.handleDialogClose();
+  }
+
+  onTimeChanged = (e) => {
+    this.setState({ editingDateTime: e.target.value });
+  }
+
+  renderDialog = () => {
+    return(
+      <MealEditDialog 
+        open={this.state.dialogOpen} 
+        handleClose={this.handleDialogClose}
+        onSave={this.saveNewTime}
+        dateTime={this.state.editingDateTime}
+        onTimeChanged={this.onTimeChanged}
+      />
+    ); 
   }
 
   render() {
     return (
       <div>
+        {this.renderDialog()}
         <FastingControlPanel 
           fastingSince={this.state.fastingSince}
           fastDurationHrs={this.props.fastDurationHrs}
@@ -57,7 +113,7 @@ export default class FastContainer extends Component {
         />
         <div style={{ marginBottom: 56 }} >
           <FastingHistoryList
-            fastingHistoryList={this.savedFastingHistory}
+            fastingHistoryList={this.state.savedFastingHistory}
             handleDialogOpen={this.handleDialogOpen}
           />
         </div>

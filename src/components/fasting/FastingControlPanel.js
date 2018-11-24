@@ -12,7 +12,7 @@ export default class FastingControlPanel extends Component {
           fastingSince={this.props.fastingSince}
           fastDurationHrs={this.props.fastDurationHrs}
         />
-        <Button color="primary" variant="text" onClick={this.props.handleDialogOpen}>
+        <Button color="primary" variant="text" onClick={() => this.props.handleDialogOpen(null)}>
           Add Meal
         </Button>
       </GeneralContainer>

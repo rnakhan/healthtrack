@@ -37,9 +37,7 @@ export default class CarbHistoryEditPopover extends Component {
         <Dialog
           fullScreen={false}
           open={this.props.open}
-          onClose={() => {
-            this.props.handleClose();
-          }}
+          onClose={this.props.handleClose}
         >
           <DialogTitle>{"Edit Past Day"}</DialogTitle>
           <DialogContent>
