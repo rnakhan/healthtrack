@@ -40,6 +40,23 @@ class TopContainer extends Component {
     }
   }
 
+  swipeHandler = (source, dir, history) => {
+    switch(source) {
+      case 'CarbContainer':
+        if (dir == "left") history.push('/fasting');
+        break;
+      case 'FastContainer':
+        if (dir == "left") history.push('/settings');
+        if (dir == "right") history.replace('/');
+        break;
+      case 'SettingsContainer':
+        if (dir == "right") history.replace('/fasting');
+        break;
+      default:
+        break;
+    }
+  }
+
   // Using the render because using component with Route doesn't allow any props.
   render() {
     return (
@@ -51,6 +68,7 @@ class TopContainer extends Component {
               selected={0}
               maxCarbs={this.state.carbConfig.maxCarbs}
               maxHistoryList={this.state.carbConfig.maxHistoryList}
+              swipeHandler={this.swipeHandler}
               {...props}
             />} />
           <Route exact path="/fasting"
@@ -58,6 +76,7 @@ class TopContainer extends Component {
               selected={1} 
               fastDurationHrs={this.state.fastConfig.fastDuration}
               maxHistoryList={this.state.fastConfig.maxHistoryList}
+              swipeHandler={this.swipeHandler}
               {...props} 
             />} />
           <Route exact path="/settings"
@@ -65,6 +84,7 @@ class TopContainer extends Component {
               selected={2} 
               updateConfig={this.updateConfig}
               currentSettings={this.state}
+              swipeHandler={this.swipeHandler}
               {...props}
              />} />
         </Switch>

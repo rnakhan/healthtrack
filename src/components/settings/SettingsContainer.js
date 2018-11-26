@@ -2,11 +2,15 @@ import React, { Component } from 'react';
 import BottomNav from '../BottomNav';
 import BackButtonAppBar from '../common/BackButtonAppBar';
 import SettingsPanel from './SettingsPanel';
+import Swipeable from 'react-swipeable';
 
 export default class SettingsContainer extends Component {
 
   render() {
     return (
+      <Swipeable
+        onSwipedRight={() => this.props.swipeHandler("SettingsContainer", "right", this.props.history)}
+      >
       <div>
         <BackButtonAppBar title="Settings" {...this.props}/>
         <div>
@@ -21,6 +25,7 @@ export default class SettingsContainer extends Component {
           <BottomNav {...this.props} />
         </div>
       </div>
+      </Swipeable>
     );
   }
 }

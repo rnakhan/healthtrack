@@ -4,6 +4,7 @@ import FastingControlPanel from './FastingControlPanel';
 import FastingHistoryList from './FastingHistoryList';
 import MealEditDialog from './MealEditDialog';
 import { formatPickerTime } from './../common/Utils';
+import Swipeable from 'react-swipeable';
 
 export default class FastContainer extends Component {
 
@@ -105,6 +106,10 @@ export default class FastContainer extends Component {
   render() {
     return (
       <div>
+        <Swipeable
+          onSwipedLeft={() => this.props.swipeHandler("FastContainer", "left", this.props.history)}
+          onSwipedRight={() => this.props.swipeHandler("FastContainer","right", this.props.history)}
+        >
         {this.renderDialog()}
         <FastingControlPanel 
           fastingSince={this.state.fastingSince}
@@ -125,6 +130,7 @@ export default class FastContainer extends Component {
         }}>
           <BottomNav {...this.props} />
         </div>
+        </Swipeable>
       </div>
     );
   }

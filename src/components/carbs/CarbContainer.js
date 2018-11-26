@@ -4,6 +4,7 @@ import { getWholeDate } from '../common/Utils';
 import CarbHistoryList from './CarbHistoryList';
 import { updateCarbs } from '../common/CommonCarbCalc';
 import BottomNav from '../BottomNav';
+import Swipeable from 'react-swipeable';
 
 
 export default class CarbContainer extends Component {
@@ -79,7 +80,10 @@ export default class CarbContainer extends Component {
   render() {
     const { totalCarbs, breakfastCarbs, lunchCarbs, dinnerCarbs, otherCarbs } = this.state.today;
     return (
-      <div id="carbcontainer">
+      <Swipeable
+        onSwipedLeft={() => this.props.swipeHandler("CarbContainer", "left", this.props.history)}
+      >
+        <div id="carbcontainer">
           <CarbControlPanel
             totalCarbs={totalCarbs}
             breakfastCarbs={breakfastCarbs}
@@ -90,7 +94,7 @@ export default class CarbContainer extends Component {
             dateString='today'
             maxCarbs={this.props.maxCarbs}
           />
-          <div style={{ marginBottom: 56}} >
+          <div style={{ marginBottom: 56 }} >
             <CarbHistoryList
               historyList={this.state.past}
               updateHistoryList={this.updateHistoricalEntry}
@@ -98,14 +102,15 @@ export default class CarbContainer extends Component {
             />
           </div>
           <div style={{
-              position: 'fixed',
-              left: 0,
-              bottom: 0,
-              width: '100%',
-            }}>
-            <BottomNav { ...this.props} />
+            position: 'fixed',
+            left: 0,
+            bottom: 0,
+            width: '100%',
+          }}>
+            <BottomNav {...this.props} />
           </div>
-      </div>
+        </div>
+      </Swipeable>
     );
   }
 }
