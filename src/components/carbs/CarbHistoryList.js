@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import Avatar from 'material-ui/Avatar';
-import { List, ListItem } from 'material-ui/List';
-import Subheader from 'material-ui/Subheader';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListSubheader from '@material-ui/core/ListSubheader';
+import ListItemText from '@material-ui/core/ListItemText';
+import Avatar from '@material-ui/core/Avatar';
 import CarbHistoryEditPopover from './CarbHistoryEditPopover';
 import { firstCharOfDayWithColor } from '../common/Utils';
 
@@ -16,7 +18,7 @@ export default class CarbHistoryList extends Component {
   render() {
     return (
       <List style={{ overflowY: "scroll" }}>
-        <Subheader>Recent days</Subheader>
+        <ListSubheader>Recent days</ListSubheader>
         {this.formatListItems(this.props.historyList, this.props.style)}
         {this.renderPopover()}
       </List>
@@ -51,24 +53,27 @@ export default class CarbHistoryList extends Component {
   }
 
   formatListItems = (list) => {
-    var fcod;
+    let fcod;
     return list.map(
       (entry) => {
         fcod = firstCharOfDayWithColor(entry.date);
+        let avStyle = { backgroundColor: fcod.color };
         return (
           <ListItem
             key={entry.date}
             onClick={(e) => { this.onListItemClick(entry)} }
-            primaryText={entry.totalCarbs}
-            leftAvatar={
-              <Avatar
-                backgroundColor={fcod.color}
+          >
+            <Avatar
+                style={avStyle}
                 size={30}
-              >
+            >
                 {fcod.day}
-              </Avatar>}
-            secondaryText={(new Date(entry.date)).toDateString()}
-          />
+            </Avatar>
+            <ListItemText 
+              primary={entry.totalCarbs}  
+              secondary={(new Date(entry.date)).toDateString()}
+            />
+          </ListItem>  
         );
       }
     );
