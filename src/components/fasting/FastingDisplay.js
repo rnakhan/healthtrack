@@ -4,7 +4,8 @@ import Typography from '@material-ui/core/Typography';
 import { colorChooser, msToTime } from '../common/Utils';
 
 const FastingDisplay = (props) => {
-  const { hours, minutes, seconds } = msToTime(props.fastingSince);
+  const { hours, minutes, seconds } = msToTime(props.fastingSince); 
+  const avg = msToTime(props.averageFastDuration);
   return (
     <Paper style={style.displayPanel} elevation={0}>
       <Typography 
@@ -14,8 +15,11 @@ const FastingDisplay = (props) => {
         {hours}:{minutes}:{seconds}
       </Typography>
       <Typography component="p" style={style.subTextStyle}>
-        Avg: 8:23:45
-    </Typography>
+        Avg Fast duration : {avg.hours}:{avg.minutes}:{avg.seconds}
+      </Typography>
+      <Typography component="p" style={style.subTextStyle}>
+        Meals in last 24 hr : {props.mealsInLast24Hrs}
+      </Typography>
     </Paper>
   );
 }

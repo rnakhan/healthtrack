@@ -3,8 +3,10 @@ import BottomNav from '../BottomNav';
 import FastingControlPanel from './FastingControlPanel';
 import FastingHistoryList from './FastingHistoryList';
 import MealEditDialog from './MealEditDialog';
-import { formatPickerTime } from './../common/Utils';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
 import Swipeable from 'react-swipeable';
+import { formatPickerTime, formatMealtime, msToTime } from './../common/Utils';
 
 export default class FastContainer extends Component {
 
@@ -29,8 +31,40 @@ export default class FastContainer extends Component {
     this.intervalHandle = setInterval(() => this.refreshTimer(), 1000);
   }
 
+  formatListItems = (list) => {
+    let totalFastedDuration = this.state.fastingSince;
+    this.mealsInLast24Hrs = 0;
+    if (!list || list.length == 0) {
+      this.averageFastDuration = totalFastedDuration;
+      return (<div></div>);
+    }
+    list.sort((a, b) => { return (a.date - b.date) }); // ascending
+    let newList = [];
+    let lastDate = null;
+    let fastedDuration = null;
+    let fastedDurationText = '';
+    for (let i = 0; i < list.length; i++) {
+      if (lastDate) {
+        fastedDuration = msToTime(list[i].date - lastDate);
+        totalFastedDuration += (list[i].date - lastDate);
+        fastedDurationText = 'Fasted ' + fastedDuration.hours + ':' + fastedDuration.minutes;
+      }
+      newList.push((
+        <ListItem key={list[i].date} onClick={(e) => { this.handleDialogOpen(list[i]) }}> 
+          <ListItemText primary={formatMealtime(list[i].date)} secondary={fastedDurationText}/>
+        </ListItem>
+      ))
+      lastDate = list[i].date;
+      if ((new Date() - lastDate) < 24*60*60*1000) {
+        this.mealsInLast24Hrs += 1;
+      }
+    }
+    this.averageFastDuration = totalFastedDuration / (list.length);
+    return newList.reverse();  // descending
+  }
+
   // fasting state is an array of { date: dateObject }
-  readStateFromStore() {
+  readStateFromStore = () => {
     const savedHistory = JSON.parse(localStorage.getItem('fasting-state'));
     let savedFastingHistory, lastMeal;
     if (savedHistory && savedHistory[savedHistory.length - 1]) {
@@ -104,6 +138,7 @@ export default class FastContainer extends Component {
   }
 
   render() {
+    this.formattedList = this.formatListItems(this.state.savedFastingHistory);
     return (
       <div>
         <Swipeable
@@ -114,11 +149,13 @@ export default class FastContainer extends Component {
         <FastingControlPanel 
           fastingSince={this.state.fastingSince}
           fastDurationHrs={this.props.fastDurationHrs}
+          averageFastDuration={this.averageFastDuration}
+          mealsInLast24Hrs={this.mealsInLast24Hrs}
           handleDialogOpen={this.handleDialogOpen}
         />
         <div style={{ marginBottom: 56 }} >
           <FastingHistoryList
-            fastingHistoryList={this.state.savedFastingHistory}
+            fastingHistoryList={this.formattedList}
             handleDialogOpen={this.handleDialogOpen}
           />
         </div>
