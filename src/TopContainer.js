@@ -43,14 +43,14 @@ class TopContainer extends Component {
   swipeHandler = (source, dir, history) => {
     switch(source) {
       case 'CarbContainer':
-        if (dir == "left") history.push('/fasting');
+        if (dir === "left") history.push('/fasting');
         break;
       case 'FastContainer':
-        if (dir == "left") history.push('/settings');
-        if (dir == "right") history.replace('/');
+        if (dir === "left") history.push('/settings');
+        if (dir === "right") history.replace('/');
         break;
       case 'SettingsContainer':
-        if (dir == "right") history.replace('/fasting');
+        if (dir === "right") history.replace('/fasting');
         break;
       default:
         break;

@@ -34,7 +34,7 @@ export default class FastContainer extends Component {
   formatListItems = (list) => {
     let totalFastedDuration = this.state.fastingSince;
     this.mealsInLast24Hrs = 0;
-    if (!list || list.length == 0) {
+    if (!list || list.length === 0) {
       this.averageFastDuration = totalFastedDuration;
       return (<div></div>);
     }
@@ -96,7 +96,7 @@ export default class FastContainer extends Component {
 
   handleDialogOpen = (entry) => {
     let editingEntry, editingDate;
-    if (entry == null) {
+    if (entry === null) {
       editingDate = new Date();
       editingEntry = "NEW";
     } else {
@@ -112,11 +112,11 @@ export default class FastContainer extends Component {
 
   saveNewTime = () => {
     let newHistoryArray;
-    if (this.state.editingEntry == "NEW") {
+    if (this.state.editingEntry === "NEW") {
       newHistoryArray = this.state.savedFastingHistory.concat({ date: new Date(this.state.editingDateTime) });
     } else {
       newHistoryArray = this.state.savedFastingHistory.map(entry => {
-        if (this.state.editingEntry.date == entry.date) return ({ date: new Date(this.state.editingDateTime) });
+        if (this.state.editingEntry.date === entry.date) return ({ date: new Date(this.state.editingDateTime) });
         else return entry;
       });
     }
@@ -132,7 +132,7 @@ export default class FastContainer extends Component {
   }
 
   deleteEntry = () => {
-    let newHistoryArray = this.state.savedFastingHistory.filter((t) => t.date != this.state.editingEntry.date);
+    let newHistoryArray = this.state.savedFastingHistory.filter((t) => t.date !== this.state.editingEntry.date);
     this.setState({ savedFastingHistory: newHistoryArray });
     this.saveLocalState(newHistoryArray);
     this.handleDialogClose();
@@ -143,7 +143,7 @@ export default class FastContainer extends Component {
   }
 
   renderDialog = () => {
-    const isNew = this.state.editingEntry == "NEW" ? true : false;
+    const isNew = this.state.editingEntry === "NEW" ? true : false;
     return(
       <MealEditDialog 
         open={this.state.dialogOpen} 
