@@ -5,9 +5,6 @@ import FastingHistoryList from './FastingHistoryList';
 import MealEditDialog from './MealEditDialog';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import Button from '@material-ui/core/Button';
-import DeleteIcon from '@material-ui/icons/Delete';
-import CancelIcon from '@material-ui/icons/Cancel';
 import Swipeable from 'react-swipeable';
 import { formatPickerTime, formatMealtime, msToTime } from './../common/Utils';
 
@@ -23,7 +20,6 @@ export default class FastContainer extends Component {
       editingDateTime: new Date(),
       editingEntry: "NEW"
     };
-    this.deleteEntryTime = null;
   }
 
   componentWillUnmount = () => {
@@ -33,15 +29,6 @@ export default class FastContainer extends Component {
   componentDidMount = () => {
     this.readStateFromStore();
     this.intervalHandle = setInterval(() => this.refreshTimer(), 1000);
-  }
-
-  handleListItemPress = (t) => {
-    this.deleteEntryTime = null;
-    this.buttonPressTimer = setTimeout(() => {this.deleteEntryTime = t}, 1500);
-  }
-
-  handleListItemRelease = () => {
-    clearTimeout(this.buttonPressTimer);
   }
 
   formatListItems = (list) => {
@@ -66,7 +53,11 @@ export default class FastContainer extends Component {
         <ListItem 
           key={list[i].date} 
         > 
-        {this.formatSingleItem(list, i, fastedDurationText)}  
+        <ListItemText 
+          primary={formatMealtime(list[i].date)} 
+          secondary={fastedDurationText}
+          onClick={(e) => {this.handleDialogOpen(list[i])}}
+        />  
         </ListItem>
       ))
       lastDate = list[i].date;
@@ -78,52 +69,8 @@ export default class FastContainer extends Component {
     return newList.reverse();  // descending
   }
 
-  deleteEntry = () => {
-    let newHistoryArray = this.state.savedFastingHistory.filter((t) => t.date != this.deleteEntryTime);
-    this.setState({ savedFastingHistory: newHistoryArray });
-    this.saveLocalState(newHistoryArray);
-  }
-
   saveLocalState = (historyArray) => {
     localStorage.setItem('fasting-state', JSON.stringify(historyArray));
-  }
-
-  cancelDeletion = () => {
-    this.deleteEntryTime = null;
-  }
-
-  formatSingleItem = (list, index, fastedDurationText) => {
-    if (list[index].date == this.deleteEntryTime) {
-      return (
-      <div>
-        <Button 
-          variant="text" 
-          color="secondary"
-          onClick={this.deleteEntry}
-        >
-          Delete
-          <DeleteIcon /> 
-        </Button>
-        <Button 
-          variant="text" 
-          color="grey"
-          onClick={this.cancelDeletion}
-        >
-          Cancel
-          <CancelIcon />
-        </Button>
-      </div>
-      );
-    } 
-    return (
-      <ListItemText 
-        primary={formatMealtime(list[index].date)} 
-        secondary={fastedDurationText}
-        onClick={(e) => {this.handleDialogOpen(list[index])}}
-        onTouchStart={(e) => {this.handleListItemPress(list[index].date)}}
-        onTouchEnd={this.handleListItemRelease}
-      />
-    );
   }
 
   // fasting state is an array of { date: dateObject }
@@ -184,18 +131,28 @@ export default class FastContainer extends Component {
     this.handleDialogClose();
   }
 
+  deleteEntry = () => {
+    let newHistoryArray = this.state.savedFastingHistory.filter((t) => t.date != this.state.editingEntry.date);
+    this.setState({ savedFastingHistory: newHistoryArray });
+    this.saveLocalState(newHistoryArray);
+    this.handleDialogClose();
+  }
+
   onTimeChanged = (e) => {
     this.setState({ editingDateTime: e.target.value });
   }
 
   renderDialog = () => {
+    const isNew = this.state.editingEntry == "NEW" ? true : false;
     return(
       <MealEditDialog 
         open={this.state.dialogOpen} 
         handleClose={this.handleDialogClose}
         onSave={this.saveNewTime}
+        onDelete={this.deleteEntry}
         dateTime={this.state.editingDateTime}
         onTimeChanged={this.onTimeChanged}
+        isNew={isNew}
       />
     ); 
   }
