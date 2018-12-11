@@ -36,7 +36,7 @@ export default class FastContainer extends Component {
     this.mealsInLast24Hrs = 0;
     if (!list || list.length == 0) {
       this.averageFastDuration = totalFastedDuration;
-      return (<div></div>);
+      return null;
     }
     list.sort((a, b) => { return (a.date - b.date) }); // ascending
     let newList = [];
